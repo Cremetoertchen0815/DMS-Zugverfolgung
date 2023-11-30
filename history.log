@@ -1,0 +1,9 @@
+2023/11/30 16:06:08.828264 main.go:20: log file created
+2023/11/30 16:07:12.813830 main.go:20: log file created
+2023/11/30 16:07:22.262837 main.go:52: RFID scanned: {123 2023-11-30 16:07:22.2627687 +0100 CET m=+9.450938601 6969}
+2023/11/30 16:12:01.728471 main.go:20: log file created
+2023/11/30 16:12:16.867710 main.go:61: RFID scanned: { Scanner: 123, Timetamp: 2023-11-30 16:12:16.867523200, RFID: 6969
+2023/11/30 16:22:02.323303 main.go:20: log file created
+2023/11/30 16:25:36.436571 main.go:20: log file created
+2023/11/30 16:26:38.492374 main.go:53: RFID scanned { Scanner: 666, Timetamp: 2023-11-30 16:26:38.492006200, Train: 187, Size: 420420420420.000000 }
+2023/11/30 16:27:01.346305 main.go:74: RFID scanned { Scanner: 123, Timetamp: 2023-11-30 16:27:1.345800400, RFID: 6969 }
