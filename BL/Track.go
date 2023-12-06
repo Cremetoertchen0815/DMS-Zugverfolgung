@@ -1,4 +1,4 @@
-package main
+package bl
 
 type TrainId int
 

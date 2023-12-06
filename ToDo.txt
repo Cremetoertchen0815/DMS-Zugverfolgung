@@ -1,2 +1,4 @@
 -Implement admin webpage with scanner info logging
 -Implement train and rail manager
+
+-Pi access data: TrainDB pi "Ich mag Züge!"

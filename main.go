@@ -1,6 +1,8 @@
 package main
 
 import (
+	webtool "TestApp/Webtool"
+	"TestApp/bl"
 	"fmt"
 	"log"
 	"net/http"
@@ -22,7 +24,7 @@ func main() {
 	fmt.Println("Starting server...")
 
 	//Create a new scanner manager
-	manager := CreateScannerManager()
+	manager := bl.CreateScannerManager()
 	http.HandleFunc("/api/scanner/size", manager.HandleSizeRequest)
 	http.HandleFunc("/api/scanner/rfid", manager.HandleRFIDRequest)
 
@@ -30,11 +32,19 @@ func main() {
 	go ProcessSizeData(manager.SizeScanned)
 	go ProcessRFIDData(manager.RFIDScanned)
 
+	//Setup static file server
+	fileServer := http.FileServer(http.Dir("Webtool/static/"))
+	http.Handle("/static/", http.StripPrefix("/static/", fileServer))
+
+	//Create webtool
+	webtool := webtool.CreateWebtoolHandler()
+	http.HandleFunc("/admin", webtool.HandleMainPage)
+
 	http.ListenAndServe("localhost:8080", nil)
 	fmt.Println("Starting server...")
 }
 
-func ProcessSizeData(dataFunnel chan SizeScannerHistoryItem) {
+func ProcessSizeData(dataFunnel chan bl.SizeScannerHistoryItem) {
 	for data := range dataFunnel {
 		//Log the data
 		logStr := fmt.Sprintf("RFID scanned { Scanner: %d, Timetamp: %d-%d-%d %d:%d:%d.%d, Train: %d, Size: %f }",
@@ -58,7 +68,7 @@ func ProcessSizeData(dataFunnel chan SizeScannerHistoryItem) {
 	}
 }
 
-func ProcessRFIDData(dataFunnel chan RFIDScannerHistoryItem) {
+func ProcessRFIDData(dataFunnel chan bl.RFIDScannerHistoryItem) {
 	for data := range dataFunnel {
 		logStr := fmt.Sprintf("RFID scanned { Scanner: %d, Timetamp: %d-%d-%d %d:%d:%d.%d, RFID: %d }",
 			data.Scanner,
