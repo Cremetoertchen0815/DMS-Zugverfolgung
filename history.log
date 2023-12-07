@@ -15,3 +15,11 @@
 2023/12/07 11:42:56.384484 UserManager.go:54: [#1494000057697640994]Admin instance started
 2023/12/07 11:42:56.922187 UserManager.go:63: [#1494000057697640994]Admin instance closed
 2023/12/07 11:42:57.003434 UserManager.go:54: [#8006101317338401264]Admin instance started
+2023/12/07 11:43:23.604364 main.go:23: ---SERVER STARTED---
+2023/12/07 11:52:34.495333 UserManager.go:54: [#7954077882354866845]Admin instance started
+2023/12/07 11:55:49.893918 ScannerLogging.go:58: Scanner #1234 added!
+2023/12/07 11:56:12.537567 ScannerLogging.go:58: Scanner #1234 added!
+2023/12/07 11:56:29.686223 ScannerLogging.go:23: RFID scanned { Scanner: 1234, Timetamp: 2023-12-7 11:56:29.685650600, RFID: 6969 }
+2023/12/07 11:56:32.346980 ScannerLogging.go:23: RFID scanned { Scanner: 1234, Timetamp: 2023-12-7 11:56:32.346980100, RFID: 6969 }
+2023/12/07 11:56:50.441789 ScannerLogging.go:58: Scanner #1234 removed!
+2023/12/07 11:58:13.877682 ScannerLogging.go:58: Scanner #1234 removed!
