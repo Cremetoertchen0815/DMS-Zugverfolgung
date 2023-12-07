@@ -1,12 +1,13 @@
 package main
 
 import (
-	webtool "TestApp/Webtool"
-	"TestApp/bl"
+	"TestApp/api"
+	"TestApp/webtool"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -23,69 +24,51 @@ func main() {
 
 	fmt.Println("Starting server...")
 
-	//Create a new scanner manager
-	manager := bl.CreateScannerManager()
-	http.HandleFunc("/api/scanner/size", manager.HandleSizeRequest)
-	http.HandleFunc("/api/scanner/rfid", manager.HandleRFIDRequest)
-
-	//Start data processing threads
-	go ProcessSizeData(manager.SizeScanned)
-	go ProcessRFIDData(manager.RFIDScanned)
-
 	//Setup static file server
 	fileServer := http.FileServer(http.Dir("Webtool/static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fileServer))
 
 	//Create webtool
-	webtool := webtool.CreateWebtoolHandler()
-	http.HandleFunc("/admin", webtool.HandleMainPage)
+	pageman := webtool.CreateWebtoolHandler()
+	userman := webtool.CreateDataStreamManager()
+	http.HandleFunc("/admin", pageman.HandleMainPage)
+	http.HandleFunc("/ws", userman.AcceptNew)
+
+	//Create a new scanner manager
+	manager := api.CreateScannerManager(userman.DataInput)
+	http.HandleFunc("/api/scanner/size", manager.HandleSizeRequest)
+	http.HandleFunc("/api/scanner/rfid", manager.HandleRFIDRequest)
+	http.HandleFunc("/api/ping", func(w http.ResponseWriter, r *http.Request) { ProcessPingRequest(w, r, userman.DataInput) })
+
+	//Start data processing threads
+	go ProcessSizeData(manager.SizeScanned)
+	go ProcessRFIDData(manager.RFIDScanned)
 
 	http.ListenAndServe("localhost:8080", nil)
 	fmt.Println("Starting server...")
 }
 
-func ProcessSizeData(dataFunnel chan bl.SizeScannerHistoryItem) {
-	for data := range dataFunnel {
-		//Log the data
-		logStr := fmt.Sprintf("RFID scanned { Scanner: %d, Timetamp: %d-%d-%d %d:%d:%d.%d, Train: %d, Size: %f }",
-			data.Scanner,
-			data.TimeStamp.Year(),
-			data.TimeStamp.Month(),
-			data.TimeStamp.Day(),
-			data.TimeStamp.Hour(),
-			data.TimeStamp.Minute(),
-			data.TimeStamp.Second(),
-			data.TimeStamp.Nanosecond(),
-			data.Train,
-			data.Value)
-
-		fmt.Println(logStr)
-		log.Println(logStr)
-
-		//TODO: Send to active websocket connections
-
+func ProcessSizeData(input chan api.SizeScannerHistoryItem) {
+	for data := range input {
 		//TODO: Update train size in database
+		_ = data
 	}
 }
 
-func ProcessRFIDData(dataFunnel chan bl.RFIDScannerHistoryItem) {
+func ProcessRFIDData(dataFunnel chan api.RFIDScannerHistoryItem) {
 	for data := range dataFunnel {
-		logStr := fmt.Sprintf("RFID scanned { Scanner: %d, Timetamp: %d-%d-%d %d:%d:%d.%d, RFID: %d }",
-			data.Scanner,
-			data.TimeStamp.Year(),
-			data.TimeStamp.Month(),
-			data.TimeStamp.Day(),
-			data.TimeStamp.Hour(),
-			data.TimeStamp.Minute(),
-			data.TimeStamp.Second(),
-			data.TimeStamp.Nanosecond(),
-			data.Value)
-
-		fmt.Println(logStr)
-		log.Println(logStr)
-
-		//TODO: Send to active websocket connections
 		//TODO: Update train size in database
+		_ = data
 	}
 
+}
+
+func ProcessPingRequest(w http.ResponseWriter, r *http.Request, webOutput chan<- webtool.LogItem) {
+	//Send to active websocket connections
+	webOutput <- webtool.LogItem{
+		TimeStamp: time.Now(),
+		Type:      "ADMIN",
+		Message:   "Ping received by server!"}
+
+	w.WriteHeader(http.StatusOK)
 }

@@ -2,26 +2,34 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-    <title>Test Seite</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/main.js"></script>
+  <title>Test Seite</title>
 </head>
 
 <body>
-    <h1>Zugverfolgung DMS</h1>
-    <h2>Admin Tool</h2>
+  <h1>Zugverfolgung DMS</h1>
+  <h2>Admin Tool</h2>
 
-    <br>
-    <p>Hier entsteht das Admin-Tool! <br><br> Logs:</p>
+  <div id="floater">
+    <button id="btnPing" onclick="launchPing()">Ping Server</button>
+  </div>
 
-        <table id="logContainer">
-            <tr>
-              <th class="smolCollumn">Zeitpunkt</th>
-              <th class="smolCollumn">Typ</th>
-              <th>Nachricht</th>
-            </tr>
-          </table>
+  <br>
+  <p>Hier entsteht das Admin-Tool! <br><br> Logs:</p>
+
+  <div id="logScroller">
+    <table id="logContainer">
+      <tr>
+        <th class="smolCollumn">Zeitpunkt</th>
+        <th class="smolCollumn">Typ</th>
+        <th>Nachricht</th>
+      </tr>
+    </table>
+  </div>
 </body>
 
 </html>

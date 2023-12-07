@@ -17,7 +17,7 @@ type Train struct {
 type Checkpoint struct {
 	DistanceFromStart float64
 	Parent            *TrackSection
-	Scanner           RFIDScannerId
+	Scanner           int
 }
 
 type TrackSection struct {

@@ -21,3 +21,14 @@ table {
   .smolCollumn {
     width: 150px;
   }
+
+  #floater {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+  }
+
+  #logScroller {
+    height: 450px;
+    overflow: auto;
+  }
