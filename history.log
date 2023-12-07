@@ -5,3 +5,13 @@
 2023/12/07 11:20:45.902859 UserManager.go:54: [#9048737076769283952]Admin instance started
 2023/12/07 11:21:45.895423 main.go:23: ---SERVER STARTED---
 2023/12/07 11:21:57.107158 UserManager.go:54: [#2744878032028282480]Admin instance started
+2023/12/07 11:41:43.734144 main.go:23: ---SERVER STARTED---
+2023/12/07 11:41:49.199692 UserManager.go:54: [#7913053858122059280]Admin instance started
+2023/12/07 11:42:54.892798 UserManager.go:63: [#7913053858122059280]Admin instance closed
+2023/12/07 11:42:54.990147 UserManager.go:54: [#4159315151196563958]Admin instance started
+2023/12/07 11:42:55.789881 UserManager.go:63: [#4159315151196563958]Admin instance closed
+2023/12/07 11:42:55.884009 UserManager.go:54: [#7436337779014839273]Admin instance started
+2023/12/07 11:42:56.302991 UserManager.go:63: [#7436337779014839273]Admin instance closed
+2023/12/07 11:42:56.384484 UserManager.go:54: [#1494000057697640994]Admin instance started
+2023/12/07 11:42:56.922187 UserManager.go:63: [#1494000057697640994]Admin instance closed
+2023/12/07 11:42:57.003434 UserManager.go:54: [#8006101317338401264]Admin instance started

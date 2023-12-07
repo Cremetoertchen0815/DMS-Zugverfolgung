@@ -27,9 +27,7 @@ function openWS() {
 }
 
 function launchPing() {
-    createAPICall("GET", "/api/ping", (status, response) => {
-        if (status !== STATUS_OK) alert("Ping failed!");
-    });
+    createAPICall("GET", "/api/ping", null);
 }
 
 window.onload = init;

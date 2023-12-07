@@ -40,6 +40,11 @@ func (manager *ScannerManager) HandleSizeRequest(w http.ResponseWriter, r *http.
 			return
 		}
 
+		if _, exists := manager.SizeScanners[SizeScannerId(id)]; exists {
+			http.Error(w, "Specified ID already registered!", http.StatusBadRequest)
+			return
+		}
+
 		manager.SizeScanners[SizeScannerId(id)] = RFIDScannerId(rfidScannerId)
 		manager.LogSizeMessage(fmt.Sprintf("Scanner #%d added!", id))
 
@@ -93,6 +98,11 @@ func (manager *ScannerManager) HandleSizeRequest(w http.ResponseWriter, r *http.
 			return
 		}
 
+		if _, exists := manager.SizeScanners[SizeScannerId(id)]; !exists {
+			http.Error(w, "Invalid id specified", http.StatusBadRequest)
+			return
+		}
+
 		sizeScannerId := SizeScannerId(id)
 		delete(manager.SizeScanners, sizeScannerId)
 
@@ -120,6 +130,11 @@ func (manager *ScannerManager) HandleRFIDRequest(w http.ResponseWriter, r *http.
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
 			http.Error(w, "Invalid id specified", http.StatusBadRequest)
+			return
+		}
+
+		if manager.ContainsRFIDScanner(RFIDScannerId(id)) {
+			http.Error(w, "Specified ID already registered!", http.StatusBadRequest)
 			return
 		}
 
@@ -172,12 +187,18 @@ func (manager *ScannerManager) HandleRFIDRequest(w http.ResponseWriter, r *http.
 			return
 		}
 
+		found := false
 		rfidScannerId := RFIDScannerId(id)
 		for i, id := range manager.RFIDScanners {
 			if id == rfidScannerId {
 				manager.RFIDScanners = append(manager.RFIDScanners[:i], manager.RFIDScanners[i+1:]...)
+				found = true
 				break
 			}
+		}
+		if !found {
+			http.Error(w, "Invalid id specified", http.StatusBadRequest)
+			return
 		}
 
 		manager.LogRFIDMessage(fmt.Sprintf("Scanner #%d removed!", rfidScannerId))
